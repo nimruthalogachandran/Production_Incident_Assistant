@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Production_Incident_Assistant.Api/Production_Incident_Assistant.Api.csproj" />
+  <Project Path="Production_Incident_Assistant.Core/Production_Incident_Assistant.Core.csproj" />
+  <Project Path="Production_Incident_Assistant.Infrastructure/Production_Incident_Assistant.Infrastructure.csproj" />
+  <Project Path="Production_Incident_Assistent.Tests/Production_Incident_Assistent.Tests.csproj" />
+</Solution>
