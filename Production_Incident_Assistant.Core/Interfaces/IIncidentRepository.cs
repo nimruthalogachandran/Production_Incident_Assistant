@@ -11,6 +11,8 @@ namespace Production_Incident_Assistant.Core.Interfaces
 
         Task<List<Incident>?> GetByStatusAsync(IncidentStatus status);
 
+        Task<List<Incident>?> GetBySeverityAsync(IncidentSeverity severity);
+
         Task<IEnumerable<Incident>> GetAllAsync();
 
         Task<Incident> AddAsync(Incident incident);

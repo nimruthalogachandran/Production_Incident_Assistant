@@ -67,6 +67,20 @@ public class IncidentsController : ControllerBase
         return Ok(incidentList);
     }
 
+
+    [HttpGet("severity/{severity}")]
+    public async Task<ActionResult<List<IncidentResponseDto>>> GetBySeverity(IncidentSeverity severity)
+    {
+        var incidentList = await _incidentService.GetIncidentBySeverityAsync(severity);
+
+        if (incidentList == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(incidentList);
+    }
+
     [HttpPost]
     public async Task<ActionResult<IncidentResponseDto>> Create(CreateIncidentRequestDto incident)
     {

@@ -56,7 +56,29 @@ namespace Production_Incident_Assistant.Core.Services
             }
             return response;
         }
-        
+
+        public async Task<List<IncidentResponseDto>?> GetIncidentBySeverityAsync(IncidentSeverity severity)
+        {
+            var incidents = await _repository.GetBySeverityAsync(severity);
+
+            List<IncidentResponseDto> response = new List<IncidentResponseDto>();
+
+            foreach (var incident in incidents)
+            {
+                response.Add(new IncidentResponseDto
+                {
+                    Id = incident.Id,
+                    Title = incident.Title,
+                    Description = incident.Description,
+                    Severity = incident.Severity.ToString(),
+                    Status = incident.Status.ToString(),
+                    CreatedAt = incident.CreatedAt,
+                    ResolvedAt = incident.ResolvedAt
+                });
+            }
+            return response;
+        }
+
 
         public async Task<IEnumerable<Incident>> GetAllIncidentsAsync()
         {
@@ -79,7 +101,7 @@ namespace Production_Incident_Assistant.Core.Services
             {
                 Title = incident.Title,
                 Description = incident.Description,
-                Severity = incident.Severity,
+                Severity = IncidentSeverity.Low,
                 Status = IncidentStatus.Open,
                 CreatedAt = DateTime.UtcNow
             };
@@ -91,7 +113,7 @@ namespace Production_Incident_Assistant.Core.Services
                 Id = createdIncident.Id,
                 Title = createdIncident.Title,
                 Description = createdIncident.Description,
-                Severity = createdIncident.Severity,
+                Severity = createdIncident.Severity.ToString(),
                 Status = createdIncident.Status.ToString(),
                 CreatedAt = createdIncident.CreatedAt,
                 ResolvedAt = createdIncident.ResolvedAt
@@ -124,17 +146,7 @@ namespace Production_Incident_Assistant.Core.Services
                 return false;
             }
 
-            if (!Enum.TryParse<IncidentStatus>(
-                  request.Status,
-                  true,
-                  out var newStatus))
-            {
-                throw new ArgumentException("Invalid incident status.");
-            }
-
-            incident.Status = newStatus;
-
-            if (newStatus == IncidentStatus.Resolved)
+            if (incident.Status == IncidentStatus.Resolved)
             {
                 incident.ResolvedAt = DateTime.UtcNow;
             }
@@ -163,9 +175,9 @@ namespace Production_Incident_Assistant.Core.Services
 
                 ResolvedIncidents = incidents.Count(i => i.Status == IncidentStatus.Resolved),
 
-                HighSeverityIncidents = incidents.Count(i => i.Severity == "High"),
+                HighSeverityIncidents = incidents.Count(i => i.Severity == IncidentSeverity.High),
 
-                CriticalSeverityIncidents = incidents.Count(i => i.Severity == "Critical")
+                CriticalSeverityIncidents = incidents.Count(i => i.Severity == IncidentSeverity.Critical)
             };
         }
     }

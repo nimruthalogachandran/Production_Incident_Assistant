@@ -23,6 +23,11 @@ namespace Production_Incident_Assistant.Infrastructure.Repositories
             return await _context.Incidents.Where(i => i.Status == status).ToListAsync();
         }
 
+        public async Task<List<Incident>?> GetBySeverityAsync(IncidentSeverity severity)
+        {
+            return await _context.Incidents.Where(i => i.Severity == severity).ToListAsync();
+        }
+
         public async Task<IEnumerable<Incident>> GetAllAsync()
         {
             return await _context.Incidents.ToListAsync();

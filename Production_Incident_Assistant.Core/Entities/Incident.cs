@@ -12,7 +12,7 @@ namespace Production_Incident_Assistant.Core.Entities
 
         public string Description { get; set; } = string.Empty;
 
-        public string Severity { get; set; } = string.Empty;
+        public IncidentSeverity Severity { get; set; } = IncidentSeverity.Low;
 
         public IncidentStatus Status { get; set; } = IncidentStatus.Open;
 
